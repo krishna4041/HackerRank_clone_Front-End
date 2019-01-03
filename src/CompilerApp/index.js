@@ -1,9 +1,12 @@
 import React, {Component} from 'react'
+import {Provider} from '../context'
 
 class CompilerApp extends Component {
     render() {
         return (
-            <div>Hello World</div>
+            <Provider>
+                Hello World                
+            </Provider>
         )
     }
 }
