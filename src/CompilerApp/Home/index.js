@@ -1,137 +1,115 @@
 import React, {Component} from 'react'
+import { withRouter } from 'react-router-dom'
 import {
     Container,
-    Jumbotron,
-    Form,
-    FormGroup,
-    Label,
-    Input,
-    Button,
-    Card,
-    CardHeader,
-    CardBody,
     Navbar,
     NavbarBrand,
-    Row,
-    Col,
+    Alert
 } from 'reactstrap'
+import { ClipLoader } from 'react-spinners'
+import ProblemTemplate from './problemTemplate'
 
 class Home extends Component {
     constructor() {
         super()
         this.state = {
-            username_l: '',
-            password_l: '',
-            username_s: '',
-            password_s: '',
-            email_s   : ''
+            loadedData        : false,
+            responseSuccessful: false,
+            problems          : []
         }
-        this.handleChange = this.handleChange.bind(this)
-        this.onLogin      = this.onLogin.bind(this)
-        this.onSignup     = this.onSignup.bind(this)
+        this.fetchProblems = this.fetchProblems.bind(this)
     }
-    handleChange(event) {
+    fetchProblems() {
+        fetch(``)
+            .then(res => {
+                if (res.status === 200) {
+                    return res.json()
+                }
+                throw new Error(res.statusText)
+            })
+            .then(problems => {
+                this.setState({
+                    loadedData        : true,
+                    responseSuccessful: true,
+                    problems          : problems
+                })
+            })
+            .catch(err => {
+                this.setState({
+                    loadedData: true,
+                    responseSuccessful: false,
+                })
+                console.log(err)
+            })
+    }
+    componentDidMount() {
+        // this.fetchProblems()
         this.setState({
-            [event.target.name]: event.target.value
+            loadedData: true,
+            responseSuccessful: true,
+            problems: [
+                {
+                    id: 1,
+                    name: '2-sum',
+                    difficulty: 'easy'
+                },
+                {
+                    id: 2,
+                    name: '3-sum',
+                    difficulty: 'medium'
+                },
+                {
+                    id: 3,
+                    name: 'reverse linked list',
+                    difficulty: 'hard'
+                },
+                {
+                    id: 4,
+                    name: '2-sum',
+                    difficulty: 'easy'
+                },
+            ]
         })
-    }
-    onLogin(event) {
-        event.preventDefault()
-        // implement this...
-        console.log(this.state)
-    }
-    onSignup(event) {
-        event.preventDefault()
-        // implement this...
-        console.log(this.state)
     }
     render() {
         return (
             <Container fluid>
                 <Navbar color='light' light>
-                    <NavbarBrand>Compiler App</NavbarBrand>
-                    <Form onSubmit={this.onLogin} inline>
-                        <FormGroup>
-                            <Input
-                                type        = 'text'
-                                name        = 'username_l'
-                                placeholder = 'Username'
-                                onChange    = {this.handleChange}
-                                value       = {this.state.username}
-                                required
-                                autoFocus
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <Input
-                                type        = 'password'
-                                name        = 'password_l'
-                                placeholder = 'Password'
-                                onChange    = {this.handleChange}
-                                value       = {this.state.password}
-                                required
-                            />
-                        </FormGroup>
-                        <Button color='success'>LOGIN</Button>
-                    </Form>
+                    <NavbarBrand href='/'>
+                        Online Judge
+                    </NavbarBrand>
                 </Navbar>
-                <hr />
-                <Row>
-                    <Col sm={8}>
-                        <Jumbotron>
-                            <h3>This is the Compiler-App where several competitions are held to test your coding abilities.</h3>
-                        </Jumbotron>
-                    </Col>
-                    <Col sm={4}>
-                        <Card className='text-center'>
-                            <CardHeader>SIGNUP FORM</CardHeader>
-                            <CardBody>
-                                <Form onSubmit={this.onSignup}>
-                                    <FormGroup row>
-                                        <Label sm={4}>Email</Label>
-                                        <Col sm={8}>
-                                            <Input 
-                                                type     = "email" 
-                                                name     = "email_s"
-                                                value    = {this.state.email_s}
-                                                onChange = {this.handleChange}
-                                                required
-                                            />
-                                        </Col>
-                                    </FormGroup>
-                                    <FormGroup row>
-                                        <Label sm={4}>Username</Label>
-                                        <Col sm={8}>
-                                            <Input 
-                                                type     = "text" 
-                                                name     = "username_s"
-                                                value    = {this.state.username_s}
-                                                onChange = {this.handleChange}
-                                                required
-                                            />
-                                        </Col>
-                                    </FormGroup>
-                                    <FormGroup row>
-                                        <Label sm={4}>Password</Label>
-                                        <Col sm={8}>
-                                            <Input 
-                                                type     = "password" 
-                                                name     = "password_s"
-                                                value    = {this.state.password_s}
-                                                onChange = {this.handleChange}
-                                                required
-                                            />
-                                        </Col>
-                                    </FormGroup>
-                                    <Button color='danger' block>SIGNUP</Button>
-                                </Form>
-                            </CardBody>
-                        </Card>
-                    </Col>
-                </Row>
+                <Container className='top-spacing'>
+                    {
+                        this.state.loadedData ?
+                            this.state.responseSuccessful ?
+                                this.state.problems.length === 0 ?
+                                    <Alert color='danger'>
+                                        NO PROBLEMS PRESENT
+                                    </Alert>
+                                :
+                                    this.state.problems.map((problem) => 
+                                        <ProblemTemplate
+                                            key         = {problem.id}
+                                            id          = {problem.id}
+                                            name        = {problem.name}
+                                            difficulty  = {problem.difficulty}
+                                        />
+                                    )
+
+                            :
+                            <Alert color='danger'>
+                                SERVER UNRESPONSIVE! PLEASE TRY AGAIN LATER
+                            </Alert>
+                        :
+                            <div className='page-loader'>
+                                <ClipLoader />
+                            </div>
+                    }
+                </Container>
             </Container>
         )
     }
 }
 
-export default Home
+export default withRouter(Home)

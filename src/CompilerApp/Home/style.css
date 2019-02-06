@@ -1,0 +1,23 @@
+
+.problem-card {
+    margin: 10px !important;
+    transition: all 400ms;
+}
+.problem-card:hover {
+    cursor: pointer;
+    margin: 10px 0px 10px 0px !important;
+    border-top: 1px solid grey;
+    border-right: 5px solid grey;
+    border-bottom: 1px solid grey;
+    border-left: 5px solid grey;
+}
+
+.page-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+.top-spacing {
+    padding-top: 10px;
+}

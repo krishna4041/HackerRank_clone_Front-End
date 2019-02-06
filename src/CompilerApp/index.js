@@ -11,11 +11,11 @@ class CompilerApp extends Component {
                     <React.Fragment>
                         <Route 
                             exact path='/'
-                            render={() => <Redirect to='/home' />}
+                            render={() => <Redirect to='/problems' />}
                         />
-                        <Route 
-                            exact path='/home'
-                            component={Home}
+                        <Route
+                            exact path='/problems'
+                            render={() => <Home />}
                         />
                     </React.Fragment>
                 </BrowserRouter>
