@@ -2,7 +2,8 @@ import React, {Component} from 'react'
 import { withRouter } from 'react-router-dom'
 import {
     Container,
-    Alert
+    Alert,
+    Button
 } from 'reactstrap'
 import { ClipLoader } from 'react-spinners'
 import ProblemTemplate from './problemTemplate'
@@ -16,7 +17,8 @@ class Home extends Component {
             responseSuccessful: false,
             problems          : []
         }
-        this.fetchProblems = this.fetchProblems.bind(this)
+        this.fetchProblems    = this.fetchProblems.bind(this)
+        this.redirectToUpload = this.redirectToUpload.bind(this)
     }
     fetchProblems() {
         fetch(``)
@@ -40,6 +42,9 @@ class Home extends Component {
                 })
                 console.log(err)
             })
+    }
+    redirectToUpload() {
+        this.props.history.push('/upload')
     }
     componentDidMount() {
         // this.fetchProblems()
@@ -101,6 +106,13 @@ class Home extends Component {
                                 <ClipLoader />
                             </div>
                     }
+                    <Button
+                        id='add-btn'
+                        color='info'
+                        onClick={this.redirectToUpload}
+                        >
+                        +
+                    </Button>
                 </Container>
             </Container>
         )

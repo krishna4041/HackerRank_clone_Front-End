@@ -16,6 +16,8 @@ import { ClipLoader } from 'react-spinners';
 import Alert from 'reactstrap/lib/Alert';
 import './style.css'
 
+const _ = require('lodash')
+
 class Problem extends Component {
     constructor() {
         super()
@@ -180,6 +182,8 @@ class Problem extends Component {
                             this.state.responseSuccessful ?
                                 <React.Fragment>
                                     <h1 className='display-3'>{this.state.name}</h1>
+                                    <hr/>
+                                    <p>Difficulty: {this.state.difficulty}</p>
                                     <hr />
                                     <p>{this.state.description}</p>
                                     <hr />
@@ -187,15 +191,23 @@ class Problem extends Component {
                                         <div>
                                             <p><b>Sample Input</b></p>
                                             <pre className='code-area'>
-                                                <span>abc</span><br />
-                                                <span>def</span>
+                                                {_.split(this.state.sampleInput, "\n").map(input => 
+                                                    input.length !== 0 && 
+                                                        <React.Fragment>
+                                                            <span>{input}</span><br />
+                                                        </React.Fragment>    
+                                                )}
                                             </pre>
                                         </div>
                                         <div>
                                             <p><b>Sample Output</b></p>
                                             <pre className='code-area'>
-                                                <span>abc</span><br />
-                                                <span>def</span>
+                                                {_.split(this.state.smapleOutput, "\n").map(output => 
+                                                    output.length !== 0 && 
+                                                        <React.Fragment>
+                                                            <span>{output}</span><br />
+                                                        </React.Fragment>    
+                                                )}
                                             </pre>
                                         </div>
                                     </div>
@@ -203,14 +215,14 @@ class Problem extends Component {
                                     <Input
                                         type='textarea' 
                                         value={this.state.mainCode}
-                                        style={{height: "200px"}}
+                                        rows={_.countBy(this.state.mainCode)["\n"] + 1 || 4}
                                         disabled
                                     />
                                     <Input
                                         type='textarea' 
                                         value={this.state.userCode}
                                         onChange={this.handleUserCode}
-                                        style={{height: "400px"}}
+                                        rows={_.countBy(this.state.userCode)["\n"] + 1 || 4}
                                     />
                                     <hr />
                                     <Row>
@@ -218,16 +230,13 @@ class Problem extends Component {
                                             <Button
                                                 color='success'
                                                 onClick={this.onCompile}
-                                                block
                                                 >
                                                 COMPILE
                                             </Button>
-                                        </Col>
-                                        <Col>
+                                            {' '}
                                             <Button
                                                 color='danger'
                                                 onClick={this.onRun}
-                                                block
                                                 >
                                                 RUN
                                             </Button>
