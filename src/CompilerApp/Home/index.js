@@ -2,12 +2,11 @@ import React, {Component} from 'react'
 import { withRouter } from 'react-router-dom'
 import {
     Container,
-    Navbar,
-    NavbarBrand,
     Alert
 } from 'reactstrap'
 import { ClipLoader } from 'react-spinners'
 import ProblemTemplate from './problemTemplate'
+import NavBar from '../templates/NavBar'
 
 class Home extends Component {
     constructor() {
@@ -74,11 +73,7 @@ class Home extends Component {
     render() {
         return (
             <Container fluid>
-                <Navbar color='light' light>
-                    <NavbarBrand href='/'>
-                        Online Judge
-                    </NavbarBrand>
-                </Navbar>
+                <NavBar />
                 <Container className='top-spacing'>
                     {
                         this.state.loadedData ?

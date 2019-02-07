@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {Provider} from '../context'
 import {BrowserRouter, Route, Redirect} from 'react-router-dom'
 import Home from './Home'
+import Problem from './Problem';
 
 class CompilerApp extends Component {
     render() {
@@ -16,6 +17,10 @@ class CompilerApp extends Component {
                         <Route
                             exact path='/problems'
                             render={() => <Home />}
+                        />
+                        <Route
+                            exact path='/problems/:p_id'
+                            render={(props) => <Problem id={props.match.params.p_id} />}
                         />
                     </React.Fragment>
                 </BrowserRouter>
