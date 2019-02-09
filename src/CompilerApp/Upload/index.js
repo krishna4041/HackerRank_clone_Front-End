@@ -24,12 +24,13 @@ class Upload extends Component {
             userCode: '',
             testCasesCode: '',
         }
-        this.handleChange  = this.handleChange.bind(this)
-        this.uploadProblem = this.uploadProblem.bind(this)
+        this.handleChange       = this.handleChange.bind(this)
+        this.uploadProblem      = this.uploadProblem.bind(this)
+        this.handleSelectedFile = this.handleSelectedFile.bind(this)
     }
     handleChange(event) {
         this.setState({
-            [event.target.name]: event.target.value
+            [event.target.name]: event.target.value.trim()
         })
     }
     handleSelectedFile(event) {
@@ -89,40 +90,76 @@ class Upload extends Component {
                                 onChange={this.handleChange}
                             />
                         </FormGroup>
-                        <FormGroup check tag='fieldset'>
-                            <legend>Choose Difficulty:</legend>
+                        <FormGroup tag="fieldset">
+                            <legend>Choose difficulty</legend>
                             <FormGroup check>
                                 <Label check>
-                                    <Input type='radio' name='easy' />
-                                    {' '}Easy
+                                <Input 
+                                    type="radio" 
+                                    name="difficulty"
+                                    value="Easy"
+                                    checked={this.state.difficulty === 'Easy'}
+                                    onChange={this.handleChange}
+                                />
+                                {' '}Easy
                                 </Label>
                             </FormGroup>
                             <FormGroup check>
                                 <Label check>
-                                    <Input type='radio' name='medium' />
-                                    {' '}Medium
+                                <Input 
+                                    type="radio" 
+                                    name="difficulty"
+                                    value="Medium"
+                                    checked={this.state.difficulty === 'Medium'}
+                                    onChange={this.handleChange}
+                                />
+                                {' '}Medium
                                 </Label>
                             </FormGroup>
-                            <FormGroup check>
+                            <FormGroup check disabled>
                                 <Label check>
-                                    <Input type='radio' name='hard' />
-                                    {' '}Hard
+                                <Input 
+                                    type="radio" 
+                                    name="difficulty" 
+                                    value="Hard"
+                                    checked={this.state.difficulty === 'Hard'}
+                                    onChange={this.handleChange}
+                                />
+                                {' '}Hard
                                 </Label>
                             </FormGroup>
                         </FormGroup>
                         <hr />
+                        <FormGroup>
+                            <Label>Sample Input</Label>
+                            <Input 
+                                type='text'
+                                name='description'
+                                value={this.state.description}
+                                onChange={this.handleChange}
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label>Sample Output</Label>
+                            <Input 
+                                type='text'
+                                name='description'
+                                value={this.state.description}
+                                onChange={this.handleChange}
+                            />
+                        </FormGroup>
                         <FormGroup row>
                             <Col>
                                 <Label>Main Code</Label>
-                                <Input type='file' onChange={this.handleSelectedFile}/>
+                                <Input type='file' name='mainCode' onChange={this.handleSelectedFile}/>
                             </Col>
                             <Col>
                                 <Label>User Code</Label>
-                                <Input type='file' onChange={this.handleSelectedFile}/>
+                                <Input type='file' name='userCode' onChange={this.handleSelectedFile}/>
                             </Col>
                             <Col>
                                 <Label>TestCases Code</Label>
-                                <Input type='file' onChange={this.handleSelectedFile}/>
+                                <Input type='file' name='testCasesCode' onChange={this.handleSelectedFile}/>
                             </Col>
                         </FormGroup>
                         <Button

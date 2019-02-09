@@ -21,7 +21,7 @@ class Home extends Component {
         this.redirectToUpload = this.redirectToUpload.bind(this)
     }
     fetchProblems() {
-        fetch(``)
+        fetch(`http://localhost:8000/problem/`)
             .then(res => {
                 if (res.status === 200) {
                     return res.json()
@@ -88,12 +88,12 @@ class Home extends Component {
                                         NO PROBLEMS PRESENT
                                     </Alert>
                                 :
-                                    this.state.problems.map((problem) => 
+                                    this.state.problems.map((p) => 
                                         <ProblemTemplate
-                                            key         = {problem.id}
-                                            id          = {problem.id}
-                                            name        = {problem.name}
-                                            difficulty  = {problem.difficulty}
+                                            key         = {p.id}
+                                            id          = {p.problem_id}
+                                            name        = {p.problem_name}
+                                            difficulty  = {p.problem_level}
                                         />
                                     )
 
