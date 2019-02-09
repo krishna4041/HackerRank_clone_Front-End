@@ -47,33 +47,7 @@ class Home extends Component {
         this.props.history.push('/upload')
     }
     componentDidMount() {
-        // this.fetchProblems()
-        this.setState({
-            loadedData: true,
-            responseSuccessful: true,
-            problems: [
-                {
-                    id: 1,
-                    name: '2-sum',
-                    difficulty: 'easy'
-                },
-                {
-                    id: 2,
-                    name: '3-sum',
-                    difficulty: 'medium'
-                },
-                {
-                    id: 3,
-                    name: 'reverse linked list',
-                    difficulty: 'hard'
-                },
-                {
-                    id: 4,
-                    name: '2-sum',
-                    difficulty: 'easy'
-                },
-            ]
-        })
+        this.fetchProblems()
     }
     render() {
         return (
@@ -91,7 +65,7 @@ class Home extends Component {
                                     this.state.problems.map((p) => 
                                         <ProblemTemplate
                                             key         = {p.id}
-                                            id          = {p.problem_id}
+                                            id          = {p.id}
                                             name        = {p.problem_name}
                                             difficulty  = {p.problem_level}
                                         />

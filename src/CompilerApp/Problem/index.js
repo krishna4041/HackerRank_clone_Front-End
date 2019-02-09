@@ -44,7 +44,7 @@ class Problem extends Component {
         this.handleUserCode = this.handleUserCode.bind(this)
     }
     fetchProblem(problemId) {
-        fetch(``)
+        fetch(`http://localhost:8000/problem/${problemId}`)
             .then(res => {
                 if (res.status === 200) {
                     return res.json()
@@ -57,10 +57,11 @@ class Problem extends Component {
                     responseSuccessful: true,
                     name              : p.problem_name,
                     description       : p.problem_description,
-                    sampleInput       : p.problem_sample_input,
-                    smapleOutput      : p.problem_sample_output,
-                    difficulty        : p.problem_difficulty,
-                    mainCode          : p.problem_sample_main_code,
+                    sampleInput       : p.problem_sampleInput,
+                    smapleOutput      : p.problem_sampleOutput,
+                    difficulty        : p.problem_level,
+                    mainCode          : p.problem_main_file,
+                    userCode          : p.problem_body_file
                 })
             })
             .catch(err => {
@@ -84,16 +85,16 @@ class Problem extends Component {
     onCompile() {
         this.setState({
             showModal: true,
-            runProcessComplete: true,
+            runProcessComplete: false,
             runProcessType: 'compiling',
             runProcessSuccessful: true,
             runProcessOutput: [],
         // })
         }, () => {
-            fetch(`http://localhost:8000/compileproblem/${this.props.id}/`, {
+            fetch(`http://localhost:8000/compileproblem/${this.props.id}`, {
                 method: 'POST',
                 body: JSON.stringify({
-                    text_data: this.state.userCode
+                    text_box: this.state.userCode
                 })
             })
                 .then(res => {
@@ -159,18 +160,7 @@ class Problem extends Component {
         })
     }
     componentDidMount() {
-        // this.fetchProblem(this.props.id)
-        this.setState({
-            loadedData        : true,
-            responseSuccessful: true,
-            name              : '2 Sum',
-            description       : 'You will be provided with an array. Find 2 elements in array which add up to the given sum.',
-            sampleInput       : '1',
-            smapleOutput      : '2',
-            difficulty        : 'easy',
-            mainCode          : '#include <stdio.h>\nint main() {\n\tprintf("%d", add(a, b));\n\treturn 0;\n}',
-            userCode          : 'int add(int a, int b) {\n\t//add your code here\n\treturn 0;\n}'
-        })
+        this.fetchProblem(this.props.id)
     }
     render() {
         return (
