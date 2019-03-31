@@ -93,12 +93,15 @@ class Problem extends Component {
         }, () => {
             fetch(`http://localhost:8000/compileproblem/${this.props.id}`, {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({
                     text_box: this.state.userCode
                 })
             })
                 .then(res => {
-                    if (res.status === 200) {
+                    if (res.status < 300) {
                         return res.json()
                     }
                     throw new Error(res.statusText)
@@ -124,20 +127,23 @@ class Problem extends Component {
     onRun() {
         this.setState({
             showModal: true,
-            runProcessComplete: true,
+            runProcessComplete: false,
             runProcessType: 'running',
             runProcessSuccessful: true,
-            runProcessOutput: ["1", "2"]
+            runProcessOutput: []
         // })
         }, () => {
-            fetch(`http://localhost:8000/runproblem/${this.props.id}/`, {
+            fetch(`http://localhost:8000/runproblem/${this.props.id}`, {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({
-                    text_data: this.state.userCode
+                    text_box: this.state.userCode
                 })
             })
                 .then(res => {
-                    if (res.status === 200) {
+                    if (res.status < 300) {
                         return res.json()
                     }
                     throw new Error(res.statusText)
@@ -147,6 +153,7 @@ class Problem extends Component {
                         showModal: true,
                         runProcessComplete: true,
                         runProcessSuccessful: true,
+                        runProcessOutput: p
                     })
                 })
                 .catch(err => {
@@ -253,7 +260,7 @@ class Problem extends Component {
                                         this.state.runProcessOutput.length === 0 ?
                                             <div>Compiled Successfully!</div>
                                         :
-                                            <div>
+                                            <div className='text-left'>
                                                 {this.state.runProcessOutput.map(output => 
                                                     <p>{output}</p>    
                                                 )}

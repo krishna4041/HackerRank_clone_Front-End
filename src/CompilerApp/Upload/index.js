@@ -39,6 +39,11 @@ class Upload extends Component {
         })
     }
     uploadProblem(event) {
+        let formData = new FormData()
+        formData.append()
+        formData.append()
+        formData.append()
+        formData.append()
         fetch(``, {
             method: 'POST',
             body: JSON.stringify({
